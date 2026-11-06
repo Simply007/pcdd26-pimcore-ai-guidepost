@@ -1,5 +1,10 @@
 # Pimcore Project Skeleton 
 
+> **Looking for the PCDD 2026 "AI Best Practices" guidepost?** This repo doubles as the demo
+> project for that talk. The skeleton docs below are the stock `pimcore/skeleton` instructions —
+> for the actual AI-tooling resource guide (what's in here, what's verified, what's still a gap),
+> see **[AGENTS.md](AGENTS.md)**.
+
 This skeleton should be used by experienced Pimcore developers for starting a new project from the ground up. 
 If you are new to Pimcore, it's better to start with our demo package, listed below 😉
 

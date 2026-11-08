@@ -12,7 +12,7 @@ New here? Start with [`AGENTS.md`](AGENTS.md): it is the guidepost itself (the r
 
 - **A working agent setup**: 43 vendored agent skills plus one project-local skill, readable by Claude Code, Codex, Copilot, Gemini CLI and other agents. See [Agent setup](#agent-setup).
 - **A map of Pimcore's AI resources**: [`AGENTS.md`](AGENTS.md) lists docs for LLMs, skills repos, the Datahub MCP server, the Pimcore Agent and more. The `app:guidepost:seed` command turns it into the site's Home page.
-- **CKEditor in Pimcore Studio**: [`packages/ckeditor-studio-bundle`](packages/ckeditor-studio-bundle/README.md) mounts CKEditor as Studio's rich text editor. See [CKEditor in Pimcore Studio](#ckeditor-in-pimcore-studio).
+- **CKEditor in Pimcore Studio**: [`simply007/ckeditor-studio-bundle`](https://github.com/Simply007/ckeditor-studio-bundle) mounts CKEditor as Studio's rich text editor. See [CKEditor in Pimcore Studio](#ckeditor-in-pimcore-studio).
 - **Demos**:
   - BlogPost data objects rendered at `/blog` (`ckeditor-studio:install-blog-demo`).
   - A "Landing page" document type ([`templates/landing/`](templates/landing/landing.html.twig)) for pages such as `/landing`.
@@ -96,14 +96,14 @@ More Docker notes, the Codeception test commands and the Platform Version explan
 
 ## CKEditor in Pimcore Studio
 
-[`packages/ckeditor-studio-bundle`](packages/ckeditor-studio-bundle/README.md) (`Simply007\CKEditorStudioBundle`) is a CKEditor counterpart to `pimcore/quill-bundle`. It replaces Studio's wysiwyg editor component, so data object wysiwyg fields and document editables render CKEditor.
+[`simply007/ckeditor-studio-bundle`](https://github.com/Simply007/ckeditor-studio-bundle) (`Simply007\CKEditorStudioBundle`, [on Packagist](https://packagist.org/packages/simply007/ckeditor-studio-bundle)) is a CKEditor counterpart to `pimcore/quill-bundle`. It replaces Studio's wysiwyg editor component, so data object wysiwyg fields and document editables render CKEditor.
 
 - Classic editor everywhere, plus an inline editor option for document editables (the Landing page document type uses it).
 - Toolbar configurable in `config/packages/ckeditor_studio.yaml`, with a default preset.
 - Editor selection `ckeditor`, `quill` or `default`, so Quill and CKEditor can stay installed side by side.
 - Runs the open source feature set with no key. With a CKEditor license key, optional CKEditor AI and real-time collaboration can be switched on through environment variables in `.env.local`; a free trial at [portal.ckeditor.com](https://portal.ckeditor.com/) covers both.
 
-Setup, configuration, the premium path and known limitations are in the [bundle README](packages/ckeditor-studio-bundle/README.md). The bundle is also being extracted into its own installable package ([issue #3](https://github.com/Simply007/pcdd26-pimcore-ai-guidepost/issues/3)).
+Setup, configuration, the premium path and known limitations are in the [bundle README](https://github.com/Simply007/ckeditor-studio-bundle#readme). This project installs it from Packagist (`composer require simply007/ckeditor-studio-bundle`); it was built in this repository and extracted into its own package ([issue #3](https://github.com/Simply007/pcdd26-pimcore-ai-guidepost/issues/3)).
 
 ## Pimcore in 60 seconds
 
@@ -125,7 +125,7 @@ Building this repo with agent skills produced three notes. Each one is written a
 |---|---|
 | [`AGENTS.md`](AGENTS.md), "Where to go next" | Ecosystem-level next steps: evals for skills, `AGENTS.md` in the main repos, `llms.txt` at the docs root, one-command skills install, a decision trail for the Pimcore Agent |
 | [`docs/demo-findings.md`](docs/demo-findings.md) | Building the guidepost as a Pimcore Document: what the skills covered, what came from the skeleton and vendor source, surprising Pimcore behavior, the editable inventory |
-| [`packages/ckeditor-studio-bundle/SKILL-FINDINGS.md`](packages/ckeditor-studio-bundle/SKILL-FINDINGS.md) | Building the CKEditor Studio bundle step by step: which skill guided each step and where `pimcore/quill-bundle` source filled the gaps |
+| [`SKILL-FINDINGS.md` in the bundle repo](https://github.com/Simply007/ckeditor-studio-bundle/blob/main/SKILL-FINDINGS.md) | Building the CKEditor Studio bundle step by step: which skill guided each step and where `pimcore/quill-bundle` source filled the gaps |
 
 Open issues on this repository track individual follow-ups, for example the [`llms.txt` link base path](https://github.com/Simply007/pcdd26-pimcore-ai-guidepost/issues/1).
 
@@ -146,7 +146,7 @@ Issues and pull requests are welcome, especially corrections to the resource map
 
 [`LICENSE.md`](LICENSE.md) is the Pimcore Open Core License (POCL) that ships with `pimcore/skeleton`, and the root `composer.json` declares `"license": "proprietary"`, also inherited from the skeleton. Parts of the repository carry their own licenses:
 
-- `packages/ckeditor-studio-bundle`: GPL-2.0-or-later, see its `LICENSE` (the committed build bundles CKEditor's open source packages, which are GPL-2.0-or-later; CKEditor premium features need a commercial license key).
+- The CKEditor bundle ([`simply007/ckeditor-studio-bundle`](https://github.com/Simply007/ckeditor-studio-bundle), installed through Composer): GPL-2.0-or-later, see its `LICENSE` (the committed build bundles CKEditor's open source packages, which are GPL-2.0-or-later; CKEditor premium features need a commercial license key).
 - `skills-vendor/pimcore-skills`: POCL, see its `LICENSE.md`.
 - `skills-vendor/cors-pimcore-skills`: MIT, see its `LICENSE`.
 

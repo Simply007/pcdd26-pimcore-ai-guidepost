@@ -5,6 +5,8 @@ on:
     branches: [main]
   pull_request:
 
+# The CKEditor Studio bundle is checked in its own repository
+# (Simply007/ckeditor-studio-bundle) and installed from Packagist.
 jobs:
   php:
     name: PHP and Composer
@@ -13,45 +15,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           tools: composer
           coverage: none
       - name: Validate composer.json and composer.lock
         run: composer validate --no-check-publish
-      - name: Validate the CKEditor bundle package
-        run: composer validate --strict --no-check-lock
-        working-directory: packages/ckeditor-studio-bundle
       - name: Lint PHP
-        run: find src packages/ckeditor-studio-bundle/src -name '*.php' -print0 | xargs -0 -n1 php -l
+        run: find src -name '*.php' -print0 | xargs -0 -n1 php -l
       - name: Check shell scripts
         run: bash -n bin/demo-preflight
-
-  bundle-frontend:
-    name: CKEditor bundle frontend
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: packages/ckeditor-studio-bundle/assets/studio
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: npm
-          cache-dependency-path: packages/ckeditor-studio-bundle/assets/studio/package-lock.json
-      - run: npm ci
-      - name: Type check
-        run: npm run check-types
-      - name: Record the committed build id
-        run: ls ../../public/studio/build > "$RUNNER_TEMP/committed-build"
-      - name: Production build
-        run: npm run build
-      # The build id is a fingerprint of the frontend source, so a different id
-      # means the source changed without the committed build being regenerated.
-      - name: Committed build matches the source
-        run: |
-          ls ../../public/studio/build > "$RUNNER_TEMP/fresh-build"
-          if ! diff "$RUNNER_TEMP/committed-build" "$RUNNER_TEMP/fresh-build"; then
-            echo "::error::The committed bundle build is stale: run 'npm run build' in packages/ckeditor-studio-bundle/assets/studio and commit the output."
-            exit 1
-          fi

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ec9fecef94380267ce3318ddd8dbaa4",
+    "content-hash": "7668302f2374990a91be2658093e7917",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -7316,11 +7316,17 @@
         },
         {
             "name": "simply007/ckeditor-studio-bundle",
-            "version": "dev-main",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Simply007/ckeditor-studio-bundle.git",
+                "reference": "0859cffa8faf5bb466b77cd4f21cb8957589d692"
+            },
             "dist": {
-                "type": "path",
-                "url": "packages/ckeditor-studio-bundle",
-                "reference": "f7042def092c63532eb48ead03d91178ec9761bc"
+                "type": "zip",
+                "url": "https://api.github.com/repos/Simply007/ckeditor-studio-bundle/zipball/0859cffa8faf5bb466b77cd4f21cb8957589d692",
+                "reference": "0859cffa8faf5bb466b77cd4f21cb8957589d692",
+                "shasum": ""
             },
             "require": {
                 "php": ">=8.3",
@@ -7340,6 +7346,7 @@
                     "Simply007\\CKEditorStudioBundle\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -7349,23 +7356,20 @@
                     "homepage": "https://ondrej.chrastina.dev"
                 }
             ],
-            "description": "CKEditor rich text editor integration for Pimcore Studio. Conference demo for Pimcore Community Dev Days 2026, modeled on pimcore/quill-bundle.",
-            "homepage": "https://github.com/Simply007/pcdd26-pimcore-ai-guidepost",
+            "description": "CKEditor as the rich text editor in Pimcore Studio: classic and inline editors, configurable toolbar, optional CKEditor AI and real-time collaboration. Community package, not affiliated with Pimcore GmbH.",
+            "homepage": "https://github.com/Simply007/ckeditor-studio-bundle",
             "keywords": [
-                "ckeditor",
+                "CKEditor",
                 "pimcore",
                 "pimcore-studio",
                 "rich-text-editor",
                 "wysiwyg"
             ],
             "support": {
-                "issues": "https://github.com/Simply007/pcdd26-pimcore-ai-guidepost/issues",
-                "source": "https://github.com/Simply007/pcdd26-pimcore-ai-guidepost/tree/main/packages/ckeditor-studio-bundle"
+                "issues": "https://github.com/Simply007/ckeditor-studio-bundle/issues",
+                "source": "https://github.com/Simply007/ckeditor-studio-bundle"
             },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "time": "2026-11-08T17:57:43+00:00"
         },
         {
             "name": "spatie/image-optimizer",
@@ -17223,9 +17227,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "simply007/ckeditor-studio-bundle": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

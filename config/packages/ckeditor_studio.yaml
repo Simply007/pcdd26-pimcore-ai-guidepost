@@ -1,4 +1,4 @@
-# CKEditor Studio bundle (packages/ckeditor-studio-bundle). Everything is optional.
+# CKEditor Studio bundle (simply007/ckeditor-studio-bundle). Everything is optional.
 #
 # Committed default: both premium gates OFF, so the editor runs the open source
 # (GPL) build and fetches no premium code. To test premium locally, set in

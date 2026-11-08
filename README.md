@@ -142,7 +142,7 @@ Issues and pull requests are welcome, especially corrections to the resource map
 
 [`LICENSE.md`](LICENSE.md) is the Pimcore Open Core License (POCL) that ships with `pimcore/skeleton`, and the root `composer.json` declares `"license": "proprietary"`, also inherited from the skeleton. Parts of the repository carry their own licenses:
 
-- `packages/ckeditor-studio-bundle`: MIT (declared in its `composer.json`).
+- `packages/ckeditor-studio-bundle`: GPL-2.0-or-later, see its `LICENSE` (the committed build bundles CKEditor's open source packages, which are GPL-2.0-or-later; CKEditor premium features need a commercial license key).
 - `skills-vendor/pimcore-skills`: POCL, see its `LICENSE.md`.
 - `skills-vendor/cors-pimcore-skills`: MIT, see its `LICENSE`.
 

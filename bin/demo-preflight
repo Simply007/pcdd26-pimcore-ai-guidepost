@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# Demo preflight: checks that the local stack is ready for the talk demo.
+# Run from the repository root: bin/demo-preflight
+# Prints only states and status codes, never secret values.
+
+set -u
+BASE="${BASE_URL:-http://localhost}"
+fails=0
+
+ok()   { printf '  \033[32mOK\033[0m    %s\n' "$1"; }
+bad()  { printf '  \033[31mFAIL\033[0m  %s\n' "$1"; fails=$((fails + 1)); }
+info() { printf '  \033[33mNOTE\033[0m  %s\n' "$1"; }
+
+echo "Containers"
+for service in php nginx db redis opensearch rabbitmq mercure supervisord; do
+  state=$(docker compose ps --format '{{.Service}} {{.State}}' 2>/dev/null | awk -v s="$service" '$1 == s { print $2 }')
+  if [ "$state" = "running" ]; then ok "$service"; else bad "$service is ${state:-missing}"; fi
+done
+
+echo "Pages"
+check_page() {
+  code=$(curl -s -o /dev/null -w '%{http_code}' -m 15 "$BASE$1")
+  if [ "$code" = "$2" ]; then ok "$1 ($code)"; else bad "$1 returned $code, expected $2"; fi
+}
+check_page /pimcore-studio/ 200
+check_page / 200
+check_page /landing 200
+check_page /blog 200
+check_page /blog/preparing-for-ai-coding-agents 200
+check_page /pimcore-studio/api/ckeditor-studio/cs-token 401
+
+echo "CKEditor bundle"
+studio_html=$(curl -s -m 15 "$BASE/pimcore-studio/")
+build=$(printf '%s' "$studio_html" | grep -o 'ckeditorstudio/studio/build/[a-z0-9]*' | head -1 | sed 's#.*/##')
+if [ -z "$build" ]; then
+  build=$(docker compose exec -T php sh -c 'ls public/bundles/ckeditorstudio/studio/build/ 2>/dev/null | head -1' | tr -d '\r')
+fi
+if [ -n "$build" ] && [ -f "public/bundles/ckeditorstudio/studio/build/$build/entrypoints.json" ]; then
+  ok "frontend build $build published"
+else
+  bad "frontend build not published (run: docker compose exec php bin/console assets:install public --symlink --relative)"
+fi
+
+printf '%s' "$studio_html" | python3 -c '
+import html, json, re, sys
+m = re.search(r"data-app-config=\"([^\"]*)\"", sys.stdin.read())
+if not m:
+    print("  \033[31mFAIL\033[0m  no data-app-config on the Studio page"); sys.exit(1)
+cfg = json.loads(html.unescape(m.group(1))).get("ckeditorStudio", {})
+editor = cfg.get("editor")
+mark = "\033[32mOK\033[0m  " if editor == "ckeditor" else "\033[31mFAIL\033[0m"
+print(f"  {mark}  editor selection: {editor}")
+has_key = bool(cfg.get("licenseKey"))
+premium = cfg.get("premium", {})
+ai = premium.get("ai", {}).get("enabled") is True
+rtc = premium.get("realtimeCollaboration", {}).get("enabled") is True
+print(f"  \033[33mNOTE\033[0m  license key configured: {has_key}, CKEditor AI: {ai}, real-time collaboration: {rtc}")
+' || fails=$((fails + 1))
+
+echo "Reminders"
+info "keep DevTools closed on stage: a failed CKEditor AI start logs the config, license key included"
+info "do not serve the stack on venue Wi-Fi"
+
+echo
+if [ "$fails" -eq 0 ]; then echo "Ready for the demo."; else echo "$fails check(s) failed."; exit 1; fi

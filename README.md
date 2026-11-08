@@ -81,6 +81,10 @@ wysiwyg fields and document editables render CKEditor.
 Setup, configuration and limitations:
 [bundle README](packages/ckeditor-studio-bundle/README.md).
 
+Before a demo, run `bin/demo-preflight`: it checks the containers, the demo pages,
+the published editor build, the editor selection and which premium gates are on,
+printing states only, never key values.
+
 ## Pimcore Platform Version
 By default, Pimcore Platform Version is added as a dependency which ensures installation of compatible and in combination 
 with each other tested versions of additional Pimcore modules. More information about the Platform Version can be found in the 

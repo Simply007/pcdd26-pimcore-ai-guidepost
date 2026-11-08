@@ -1,4 +1,0 @@
-# Auto-loaded by Pimcore's bundle routing loader (<bundle>/config/pimcore/routing.yaml).
-ckeditor_studio:
-  resource: '../../src/Controller/'
-  type: attribute

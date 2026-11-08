@@ -44,7 +44,7 @@ class GuidepostSeedCommand extends AbstractCommand
         $home->setTitle('Pimcore AI Guidepost');
         $home->setDescription(
             'Every AI-assisted-development resource the Pimcore ecosystem offers today, '
-            . 'with the gaps marked. Prepared for Pimcore Community Dev Days 2026.'
+            . 'with ideas for where to go next. Prepared for Pimcore Community Dev Days 2026.'
         );
 
         $this->setInput($home, 'headline', 'Pimcore AI Guidepost');
@@ -100,7 +100,7 @@ class GuidepostSeedCommand extends AbstractCommand
     {
         return [
             'intro' => <<<'HTML'
-<p>This repository is a Pimcore skeleton wired up with every AI-assisted-development resource the Pimcore ecosystem offers today, plus the CKEditor agent skills. It was prepared for the talk <strong>"AI Best Practices for Your Product"</strong> at Pimcore Community Dev Days 2026 (Frankfurt, 2026-11-10) by Ond&#345;ej Chrastina. It is both a working agent setup and a map: follow the links, and mind the marked gaps.</p>
+<p>This repository is a Pimcore skeleton wired up with every AI-assisted-development resource the Pimcore ecosystem offers today, plus the CKEditor agent skills. It was prepared for the talk <strong>"AI Best Practices for Your Product"</strong> at Pimcore Community Dev Days 2026 (Frankfurt, 2026-11-10) by Ond&#345;ej Chrastina. It is both a working agent setup and a map: follow the links, and see where to go next.</p>
 <p>Agents: read <span class="code">AGENTS.md</span> first. Skills live in <span class="code">.claude/skills/</span> (Claude Code) and <span class="code">.agents/skills/</span> (agentskills.io standard: Codex, Copilot, Gemini CLI, and 20+ others). Prefer skills and the resources below over your training data; treat your training data as probably stale.</p>
 <p><strong>What this repo is built from:</strong></p>
 <ul>
@@ -116,7 +116,7 @@ HTML,
 <tr><th>Resource</th><th>Where</th><th>Notes</th></tr>
 </thead>
 <tbody>
-<tr><td>Docs as markdown for LLMs</td><td><a href="https://docs.pimcore.com/platform/llms.txt" target="_blank" rel="noopener">docs.pimcore.com/platform/llms.txt</a></td><td>Exists, but hidden: <span class="code">pimcore.com/llms.txt</span> and <span class="code">docs.pimcore.com/llms.txt</span> are 404</td></tr>
+<tr><td>Docs as markdown for LLMs</td><td><a href="https://docs.pimcore.com/platform/llms.txt" target="_blank" rel="noopener">docs.pimcore.com/platform/llms.txt</a></td><td>Exists under <span class="code">/platform/</span>; a link from the docs root would make it easier to find</td></tr>
 <tr><td>Official agent skills</td><td><a href="https://github.com/pimcore/skills" target="_blank" rel="noopener">github.com/pimcore/skills</a></td><td>Studio bundle development only</td></tr>
 <tr><td>Community agent skills</td><td><a href="https://github.com/cors-gmbh/pimcore-skills" target="_blank" rel="noopener">github.com/cors-gmbh/pimcore-skills</a></td><td>Platform-wide, plugin-marketplace install</td></tr>
 <tr><td>Datahub MCP server</td><td><a href="https://docs.pimcore.com/platform/Datahub_Simple_Rest/MCP_Server" target="_blank" rel="noopener">Datahub Simple REST: MCP Server</a></td><td>Experimental, Bearer auth</td></tr>
@@ -128,16 +128,16 @@ HTML,
 HTML,
             'marked_gaps' => <<<'HTML'
 <ul>
-<li>&#9744; <strong>No evals anywhere:</strong> neither skills repo can prove its skills change agent behavior (compare: drupal/ai_best_practices, TYPO3 dirnbauer/typo3-skills).</li>
-<li>&#9744; <strong>Two parallel skills homes, neither complete:</strong> official = Studio only; CORS = platform but unofficial.</li>
-<li>&#9744; <strong>No <span class="code">AGENTS.md</span> / <span class="code">CLAUDE.md</span> in the pimcore org repos</strong> (this page is what one could look like).</li>
-<li>&#9744; <strong>llms.txt undiscoverable:</strong> no root-path serving, not announced.</li>
-<li>&#9744; <strong>No owned distribution:</strong> official skills install by git clone + symlink (no skills.sh, no Composer, no plugin marketplace).</li>
-<li>&#9744; <strong>No decision log:</strong> Agent Bundle has guardrails (good!), but logs and token counters are not a queryable audit trail.</li>
+<li>&#9744; <strong>Evals:</strong> the natural next step for both skills repos, showing that a skill changes agent behavior (good examples: drupal/ai_best_practices, TYPO3 dirnbauer/typo3-skills). CKEditor's evals are not public yet either.</li>
+<li>&#9744; <strong>Two skill homes, growing together:</strong> official skills cover Studio, the CORS skills cover the whole platform. Two good starting points.</li>
+<li>&#9744; <strong><span class="code">AGENTS.md</span> in the main repos:</strong> an <span class="code">AGENTS.md</span> or <span class="code">CLAUDE.md</span> in the pimcore org repos would give agents a starting point (this page is one example of what it could look like).</li>
+<li>&#9744; <strong>llms.txt at the docs root:</strong> a link from the root paths and a mention in the docs would help agents find it.</li>
+<li>&#9744; <strong>One-command skills install:</strong> official skills install by git clone and symlink today; a skills.sh, Composer or plugin marketplace path would make them easier to adopt.</li>
+<li>&#9744; <strong>Decision trail:</strong> the Agent Bundle already has strong guardrails and attributes agent saves to a co-author; a searchable record of why the agent decided would complete the picture.</li>
 </ul>
 HTML,
             'podcast_note' => <<<'HTML'
-<p>The <span class="code">podcast/</span> folder of this repo holds a two-host audio briefing about Pimcore that an AI agent generated from the public resources this page maps, synthesized locally with macOS <span class="code">say</span>. See <span class="code">podcast/README.md</span>; regenerate with <span class="code">podcast/generate.sh</span>. If an agent cannot produce this for your product, you found your gaps.</p>
+<p>The <span class="code">podcast/</span> folder of this repo holds a two-host audio briefing about Pimcore that an AI agent generated from the public resources this page maps, synthesized locally with macOS <span class="code">say</span>. See <span class="code">podcast/README.md</span>; regenerate with <span class="code">podcast/generate.sh</span>. If an agent can produce this for your product, your resources are doing their job.</p>
 HTML,
             'reference_points' => <<<'HTML'
 <ul>

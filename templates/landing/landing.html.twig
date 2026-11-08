@@ -38,7 +38,7 @@
         .hero .subline { font-size: 21px; opacity: .9; max-width: 720px; }
 
         .features { padding: 64px 0; }
-        .features .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .features .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
         .feature {
             background: #fff;
             border: 1px solid var(--line);
@@ -65,7 +65,6 @@
         }
 
         @media (max-width: 800px) {
-            .features .grid { grid-template-columns: 1fr; }
             .hero h1 { font-size: 36px; }
         }
     </style>

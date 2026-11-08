@@ -405,8 +405,12 @@ Backend prerequisites beyond the key, with pointers:
 - Document editables are identified from the editmode iframe DOM
   (`#pimcore_editable_<name>`, `window.pimcore_document_id`) because Studio core passes
   neither; a Pimcore change to that markup would need a matching change here.
-- The docked AI panel was verified on a wide screen; the laptop-width layout (panel
-  clamped to 300 to 440px) follows from the sizing rule but was not checked live.
+- The docked AI panel was checked live on a wide screen and at laptop size
+  (1384x797, panel 300px). In document editmode it is fixed inside the editmode
+  iframe and narrows the page content without changing the viewport width, so a
+  template that switches layout with viewport media queries keeps its wide layout and
+  overflows under the panel. Prefer layouts that adapt to the available width
+  (`repeat(auto-fit, minmax(...))`, flex wrap, container queries).
 - The token endpoint grants every Studio user writer access to every channel and the
   AI end-user profile. Fine for a demo; production should map Pimcore permissions to
   per-channel roles.

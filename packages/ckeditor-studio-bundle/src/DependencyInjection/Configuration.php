@@ -8,7 +8,7 @@ declare(strict_types=1);
  * on pimcore/quill-bundle. MIT licensed.
  */
 
-namespace Chrastina\CKEditorStudioBundle\DependencyInjection;
+namespace Simply007\CKEditorStudioBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

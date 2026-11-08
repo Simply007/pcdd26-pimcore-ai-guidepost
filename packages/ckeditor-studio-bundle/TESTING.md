@@ -13,14 +13,14 @@ main checkout that the Docker stack mounts.
 ## 2. Install the package (path repository)
 
 The root `composer.json` already has the path repository and the
-`chrastina/ckeditor-studio-bundle: @dev` requirement. Only the lock/install step was
+`simply007/ckeditor-studio-bundle: @dev` requirement. Only the lock/install step was
 deliberately not run. Run it inside the container (host PHP lacks extensions):
 
 ```bash
-docker compose exec php composer update chrastina/ckeditor-studio-bundle
+docker compose exec php composer update simply007/ckeditor-studio-bundle
 ```
 
-Expected: the package is symlinked into `vendor/chrastina/ckeditor-studio-bundle`.
+Expected: the package is symlinked into `vendor/simply007/ckeditor-studio-bundle`.
 If the symlink does not resolve inside the container, the `packages/` dir is not
 mounted; check `docker-compose.yaml` volumes (the skeleton mounts the project root,
 so it should be fine).
@@ -32,7 +32,7 @@ docker compose exec php bin/console pimcore:bundle:enable CKEditorStudioBundle
 docker compose exec php bin/console pimcore:bundle:list | grep -i ckeditor
 ```
 
-Expected: `Chrastina\CKEditorStudioBundle\CKEditorStudioBundle` enabled.
+Expected: `Simply007\CKEditorStudioBundle\CKEditorStudioBundle` enabled.
 (`pimcore:bundle:enable` edits `config/bundles.php`; that edit happens on the live
 stack, intentionally not in this branch.)
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9d02a85a5d9bd56000ce8e62eea79fee",
+    "content-hash": "0ec9fecef94380267ce3318ddd8dbaa4",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -7313,6 +7313,59 @@
                 "source": "https://github.com/scheb/2fa-google-authenticator/tree/v8.7.0"
             },
             "time": "2026-01-24T13:27:55+00:00"
+        },
+        {
+            "name": "simply007/ckeditor-studio-bundle",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "packages/ckeditor-studio-bundle",
+                "reference": "f7042def092c63532eb48ead03d91178ec9761bc"
+            },
+            "require": {
+                "php": ">=8.3",
+                "pimcore/pimcore": "^2026.1",
+                "pimcore/studio-ui-bundle": "^2026.3"
+            },
+            "type": "pimcore-bundle",
+            "extra": {
+                "pimcore": {
+                    "bundles": [
+                        "Simply007\\CKEditorStudioBundle\\CKEditorStudioBundle"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Simply007\\CKEditorStudioBundle\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Ondrej Chrastina",
+                    "homepage": "https://ondrej.chrastina.dev"
+                }
+            ],
+            "description": "CKEditor rich text editor integration for Pimcore Studio. Conference demo for Pimcore Community Dev Days 2026, modeled on pimcore/quill-bundle.",
+            "homepage": "https://github.com/Simply007/pcdd26-pimcore-ai-guidepost",
+            "keywords": [
+                "ckeditor",
+                "pimcore",
+                "pimcore-studio",
+                "rich-text-editor",
+                "wysiwyg"
+            ],
+            "support": {
+                "issues": "https://github.com/Simply007/pcdd26-pimcore-ai-guidepost/issues",
+                "source": "https://github.com/Simply007/pcdd26-pimcore-ai-guidepost/tree/main/packages/ckeditor-studio-bundle"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "spatie/image-optimizer",
@@ -17170,7 +17223,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": {
+        "simply007/ckeditor-studio-bundle": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

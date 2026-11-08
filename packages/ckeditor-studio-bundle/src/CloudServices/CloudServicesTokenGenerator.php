@@ -8,7 +8,7 @@ declare(strict_types=1);
  * on pimcore/quill-bundle. MIT licensed.
  */
 
-namespace Chrastina\CKEditorStudioBundle\CloudServices;
+namespace Simply007\CKEditorStudioBundle\CloudServices;
 
 /**
  * Issues CKEditor Cloud Services tokens: HS256 JWTs signed with the

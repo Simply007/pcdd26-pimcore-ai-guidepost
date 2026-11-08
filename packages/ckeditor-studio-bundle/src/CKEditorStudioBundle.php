@@ -8,9 +8,9 @@ declare(strict_types=1);
  * on pimcore/quill-bundle. MIT licensed.
  */
 
-namespace Chrastina\CKEditorStudioBundle;
+namespace Simply007\CKEditorStudioBundle;
 
-use Chrastina\CKEditorStudioBundle\DependencyInjection\CKEditorStudioExtension;
+use Simply007\CKEditorStudioBundle\DependencyInjection\CKEditorStudioExtension;
 use Pimcore\Extension\Bundle\AbstractPimcoreBundle;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 

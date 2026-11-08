@@ -8,7 +8,7 @@ declare(strict_types=1);
  * on pimcore/quill-bundle. MIT licensed.
  */
 
-namespace Chrastina\CKEditorStudioBundle\Webpack;
+namespace Simply007\CKEditorStudioBundle\Webpack;
 
 use Pimcore\Bundle\StudioUiBundle\Webpack\WebpackEntryPointProviderInterface;
 

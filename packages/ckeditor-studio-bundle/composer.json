@@ -1,5 +1,5 @@
 {
-  "name": "chrastina/ckeditor-studio-bundle",
+  "name": "simply007/ckeditor-studio-bundle",
   "description": "CKEditor rich text editor integration for Pimcore Studio. Conference demo for Pimcore Community Dev Days 2026, modeled on pimcore/quill-bundle.",
   "license": "GPL-2.0-or-later",
   "type": "pimcore-bundle",
@@ -28,13 +28,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Chrastina\\CKEditorStudioBundle\\": "src/"
+      "Simply007\\CKEditorStudioBundle\\": "src/"
     }
   },
   "extra": {
     "pimcore": {
       "bundles": [
-        "Chrastina\\CKEditorStudioBundle\\CKEditorStudioBundle"
+        "Simply007\\CKEditorStudioBundle\\CKEditorStudioBundle"
       ]
     }
   }

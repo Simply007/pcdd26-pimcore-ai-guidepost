@@ -28,7 +28,7 @@ premium locally"). Experiment log on the agent skills used to build it: see
 
 Pimcore Studio is a module-federation host. This bundle contributes a remote:
 
-1. The Symfony bundle (`Chrastina\CKEditorStudioBundle`) registers a
+1. The Symfony bundle (`Simply007\CKEditorStudioBundle`) registers a
    `WebpackEntryPointProvider` (tag `pimcore_studio_ui.webpack_entry_point_provider`,
    plus the document editor iframe tag) that points Studio at the committed rsbuild
    output in `public/studio/build/<build-id>/entrypoints.json`.
@@ -53,7 +53,7 @@ In this repository everything is pre-wired (path repository in the root
 
 ```bash
 # 1. Composer (path repository route; see "Extracting this bundle" for standalone)
-composer require chrastina/ckeditor-studio-bundle:@dev
+composer require simply007/ckeditor-studio-bundle:@dev
 
 # 2. Enable the bundle (writes config/bundles.php)
 docker compose exec php bin/console pimcore:bundle:enable CKEditorStudioBundle
@@ -423,7 +423,7 @@ Backend prerequisites beyond the key, with pointers:
 ## Layout
 
 ```
-composer.json                PHP package (type: pimcore-bundle, PSR-4 Chrastina\CKEditorStudioBundle)
+composer.json                PHP package (type: pimcore-bundle, PSR-4 Simply007\CKEditorStudioBundle)
 src/                         Bundle class, configuration, app config provider, entry point provider,
                              Cloud Services token generator + controller, premium CSP subscriber
 config/studio_ui.yaml        Tags the providers for Studio UI (incl. document editor iframe)
@@ -442,7 +442,7 @@ standalone install needs:
 - Distribution: copy this directory to its own repository; `composer.json` already
   carries the metadata (name, description, license, autoload, `type: pimcore-bundle`,
   `extra.pimcore.bundles`). Consumers then either add a VCS/path repository entry and
-  `composer require chrastina/ckeditor-studio-bundle`, or the package gets published
+  `composer require simply007/ckeditor-studio-bundle`, or the package gets published
   to Packagist and the repository entry disappears.
 - Frontend build: the committed build under `public/studio/build/<build-id>/` ships
   with the package, so consumers need no Node toolchain. Maintainers rebuild with

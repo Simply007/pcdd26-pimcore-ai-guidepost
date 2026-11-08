@@ -7,5 +7,5 @@ return [
     Pimcore\Bundle\StudioBackendBundle\PimcoreStudioBackendBundle::class => ['all' => true],
     Pimcore\Bundle\StudioUiBundle\PimcoreStudioUiBundle::class => ['all' => true],
     Pimcore\Bundle\QuillBundle\PimcoreQuillBundle::class => ['all' => true],
-    Chrastina\CKEditorStudioBundle\CKEditorStudioBundle::class => ['all' => true],
+    Simply007\CKEditorStudioBundle\CKEditorStudioBundle::class => ['all' => true],
 ];

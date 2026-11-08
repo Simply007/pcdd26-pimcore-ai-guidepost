@@ -8,9 +8,9 @@ declare(strict_types=1);
  * on pimcore/quill-bundle. MIT licensed.
  */
 
-namespace Chrastina\CKEditorStudioBundle\Controller;
+namespace Simply007\CKEditorStudioBundle\Controller;
 
-use Chrastina\CKEditorStudioBundle\CloudServices\CloudServicesTokenGenerator;
+use Simply007\CKEditorStudioBundle\CloudServices\CloudServicesTokenGenerator;
 use Pimcore\Security\User\User as PimcoreSecurityUser;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;

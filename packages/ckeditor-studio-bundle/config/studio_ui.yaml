@@ -4,14 +4,14 @@ services:
     autoconfigure: true
     public: false
 
-  Chrastina\CKEditorStudioBundle\Webpack\WebpackEntryPointProvider:
+  Simply007\CKEditorStudioBundle\Webpack\WebpackEntryPointProvider:
     tags:
       - { name: 'pimcore_studio_ui.webpack_entry_point_provider' }
       - { name: 'pimcore_studio_ui.webpack_entry_point_provider.document_editor_iframe' }
 
   # Surfaces license key, toolbar preset and premium gates to the Studio frontend
   # (merged into the data-app-config attribute on the Studio shell page).
-  Chrastina\CKEditorStudioBundle\AppConfig\StudioAppConfigProvider:
+  Simply007\CKEditorStudioBundle\AppConfig\StudioAppConfigProvider:
     arguments:
       $editor: '%ckeditor_studio.editor%'
       $licenseKey: '%ckeditor_studio.license_key%'
@@ -22,17 +22,17 @@ services:
       - { name: 'pimcore_studio_ui.app_config_provider' }
 
   # Signs CKEditor Cloud Services tokens (RTC + AI). The access key stays server side.
-  Chrastina\CKEditorStudioBundle\CloudServices\CloudServicesTokenGenerator:
+  Simply007\CKEditorStudioBundle\CloudServices\CloudServicesTokenGenerator:
     arguments:
       $environmentId: '%ckeditor_studio.cloud_services.environment_id%'
       $accessKey: '%ckeditor_studio.cloud_services.access_key%'
 
   # Opens Studio's connect-src CSP to Cloud Services + license usage, only when premium is active.
-  Chrastina\CKEditorStudioBundle\EventSubscriber\PremiumCspSubscriber:
+  Simply007\CKEditorStudioBundle\EventSubscriber\PremiumCspSubscriber:
     arguments:
       $licenseKey: '%ckeditor_studio.license_key%'
       $premium: '%ckeditor_studio.premium%'
 
   # Token endpoint under /pimcore-studio/api (Studio firewall, ROLE_PIMCORE_USER).
-  Chrastina\CKEditorStudioBundle\Controller\CloudServicesTokenController:
+  Simply007\CKEditorStudioBundle\Controller\CloudServicesTokenController:
     tags: ['controller.service_arguments']

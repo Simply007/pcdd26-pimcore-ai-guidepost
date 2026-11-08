@@ -8,10 +8,10 @@ declare(strict_types=1);
  * on pimcore/quill-bundle. MIT licensed.
  */
 
-namespace Chrastina\CKEditorStudioBundle\AppConfig;
+namespace Simply007\CKEditorStudioBundle\AppConfig;
 
-use Chrastina\CKEditorStudioBundle\CloudServices\CloudServicesTokenGenerator;
-use Chrastina\CKEditorStudioBundle\Controller\CloudServicesTokenController;
+use Simply007\CKEditorStudioBundle\CloudServices\CloudServicesTokenGenerator;
+use Simply007\CKEditorStudioBundle\Controller\CloudServicesTokenController;
 use Pimcore\Bundle\StudioUiBundle\AppConfig\AppConfigProviderInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 

@@ -8,7 +8,7 @@ declare(strict_types=1);
  * on pimcore/quill-bundle. MIT licensed.
  */
 
-namespace Chrastina\CKEditorStudioBundle\EventSubscriber;
+namespace Simply007\CKEditorStudioBundle\EventSubscriber;
 
 use Pimcore\Bundle\StudioUiBundle\Event\Csp\CspEvent;
 use Pimcore\Bundle\StudioUiBundle\Security\Csp\ContentSecurityPolicyHandlerInterface;

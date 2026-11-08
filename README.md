@@ -96,7 +96,7 @@ More Docker notes, the Codeception test commands and the Platform Version explan
 
 ## CKEditor in Pimcore Studio
 
-[`packages/ckeditor-studio-bundle`](packages/ckeditor-studio-bundle/README.md) (`Chrastina\CKEditorStudioBundle`) is a CKEditor counterpart to `pimcore/quill-bundle`. It replaces Studio's wysiwyg editor component, so data object wysiwyg fields and document editables render CKEditor.
+[`packages/ckeditor-studio-bundle`](packages/ckeditor-studio-bundle/README.md) (`Simply007\CKEditorStudioBundle`) is a CKEditor counterpart to `pimcore/quill-bundle`. It replaces Studio's wysiwyg editor component, so data object wysiwyg fields and document editables render CKEditor.
 
 - Classic editor everywhere, plus an inline editor option for document editables (the Landing page document type uses it).
 - Toolbar configurable in `config/packages/ckeditor_studio.yaml`, with a default preset.

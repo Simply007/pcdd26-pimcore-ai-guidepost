@@ -64,3 +64,6 @@ nbproject
 
 # hosted instance secrets, never commit
 /.env.upsun.local
+
+# Local git worktrees created by coding agents
+/.claude/worktrees/

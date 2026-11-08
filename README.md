@@ -2,6 +2,10 @@
 
 A Pimcore 2026.3 project wired up with every AI-assisted development resource the Pimcore ecosystem offers today, plus a CKEditor integration for Pimcore Studio. It was prepared by Ondřej Chrastina (Developer Advocate at CKEditor) for the talk "AI Best Practices for Your Product" at [Pimcore Community Dev Days 2026](https://pretix.eu/pluswerk/pcdd26/) (Frankfurt, 2026-11-10). Clone it to get a working coding-agent setup for Pimcore, a map of where Pimcore's AI resources live, and a set of small demos you can run locally.
 
+![CKEditor in Pimcore Studio: a blog post data object edited with CKEditor, with the CKEditor AI chat docked next to it](docs/images/ckeditor-in-pimcore-studio.jpg)
+
+*CKEditor editing a blog post in Pimcore Studio, with CKEditor AI docked next to the content.*
+
 New here? Start with [`AGENTS.md`](AGENTS.md): it is the guidepost itself (the resource map and the next steps), and the same content is served as the Home page of the running site.
 
 ## What's inside

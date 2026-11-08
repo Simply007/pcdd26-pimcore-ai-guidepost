@@ -142,13 +142,28 @@ Issues and pull requests are welcome, especially corrections to the resource map
 - Never commit `.env.local` or any keys.
 - When an agent skill or `AGENTS.md` turns out to be wrong, update it in the same change that fixes the problem.
 
-## License
+## Licensing
 
-[`LICENSE.md`](LICENSE.md) is the Pimcore Open Core License (POCL) that ships with `pimcore/skeleton`, and the root `composer.json` declares `"license": "proprietary"`, also inherited from the skeleton. Parts of the repository carry their own licenses:
+This repository mixes parts under different licenses. In short: the project itself follows the Pimcore skeleton (POCL), the CKEditor bundle is open source (GPL-2.0-or-later), and CKEditor premium features are commercial. This is a summary to help you decide, not legal advice.
 
-- The CKEditor bundle ([`simply007/ckeditor-studio-bundle`](https://github.com/Simply007/ckeditor-studio-bundle), installed through Composer): GPL-2.0-or-later, see its `LICENSE` (the committed build bundles CKEditor's open source packages, which are GPL-2.0-or-later; CKEditor premium features need a commercial license key).
-- `skills-vendor/pimcore-skills`: POCL, see its `LICENSE.md`.
-- `skills-vendor/cors-pimcore-skills`: MIT, see its `LICENSE`.
+| Part | License |
+|---|---|
+| This project (Pimcore skeleton, demo code, templates) | Pimcore Open Core License (POCL), see [`LICENSE.md`](LICENSE.md); the root `composer.json` says `"proprietary"`, both inherited from `pimcore/skeleton` |
+| Pimcore and Pimcore Studio (installed through Composer) | POCL, or commercial terms from Pimcore |
+| CKEditor bundle [`simply007/ckeditor-studio-bundle`](https://github.com/Simply007/ckeditor-studio-bundle) (installed through Composer) | GPL-2.0-or-later; see its [licensing section](https://github.com/Simply007/ckeditor-studio-bundle#licensing) |
+| CKEditor open source, inside the bundle | Dual: GPL-2.0-or-later, or commercial terms from CKSource |
+| CKEditor premium features (CKEditor AI, real-time collaboration and others), inside the bundle | Commercial license from CKSource; only loaded with a license key |
+| `skills-vendor/pimcore-skills` | POCL, see its `LICENSE.md` |
+| `skills-vendor/cors-pimcore-skills` | MIT, see its `LICENSE` |
+| CKEditor agent skills in `.agents/skills/` | From [ckeditor/skills](https://github.com/ckeditor/skills), which declares no license file |
+
+What this means if you reuse it:
+
+- **Without a CKEditor license key** only open source CKEditor code runs (`licenseKey: 'GPL'`). The premium features, including everything shown with CKEditor AI and real-time collaboration, need a CKEditor commercial or trial license key: <https://portal.ckeditor.com>.
+- **Running** this project on your own machine or servers is use, not distribution.
+- **Distributing** a project built from it (for example, to a client) combines GPL code (CKEditor, the bundle) with POCL code (Pimcore), and the POCL is not an open source license. Check that this works for your case; a CKEditor commercial license lets you use CKEditor under commercial terms instead of the GPL.
+
+More: [CKEditor licensing options](https://ckeditor.com/legal/ckeditor-licensing-options), [Pimcore licensing](https://pimcore.com/en/pricing).
 
 ## Credits
 

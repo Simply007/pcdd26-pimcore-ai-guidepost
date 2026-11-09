@@ -6,7 +6,7 @@ on:
   pull_request:
 
 # The CKEditor Studio bundle is checked in its own repository
-# (Simply007/ckeditor-studio-bundle) and installed from Packagist.
+# (Simply007/pimcore-studio-ckeditor-bundle) and installed from Packagist.
 jobs:
   php:
     name: PHP and Composer

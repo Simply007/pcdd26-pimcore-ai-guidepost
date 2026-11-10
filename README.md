@@ -18,6 +18,7 @@ New here? Start with [`AGENTS.md`](AGENTS.md): it is the guidepost itself (the r
   - A "Landing page" document type ([`templates/landing/`](templates/landing/landing.html.twig)) for pages such as `/landing`.
   - A generated two-host podcast about Pimcore in [`podcast/`](podcast/README.md), built from the public resources the guidepost maps.
   - [`bin/demo-preflight`](bin/demo-preflight): checks the stack before a demo.
+  - A site menu ([`templates/includes/site-menu.html.twig`](templates/includes/site-menu.html.twig)) on Home, the landing page and the blog, pinned to the top while scrolling. It lists the published pages under Home from the document tree, so renaming a page key in Studio does not break it.
 - **Findings**: what the agent skills covered and where the next steps are. See [Findings and next steps](#findings-and-next-steps).
 
 ## Quick start

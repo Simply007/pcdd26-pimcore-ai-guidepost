@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Blog</title>
     <style>
-        body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 16px; color: #222; }
+        body { margin: 0; font-family: system-ui, sans-serif; color: #222; }
+        main { max-width: 720px; margin: 2rem auto; padding: 0 16px; }
         article { border-bottom: 1px solid #ddd; padding: 1.5rem 0; }
         h1 { margin-bottom: 0.5rem; }
         .meta { color: #777; font-size: 0.875rem; }
@@ -14,6 +15,8 @@
     </style>
 </head>
 <body>
+{% include 'includes/site-menu.html.twig' with { active: 'blog' } %}
+<main>
     <h1>Blog</h1>
     <p class="meta">BlogPost data objects, content model defined in the database, rich text edited with CKEditor in Studio.</p>
 
@@ -30,5 +33,6 @@
     {% else %}
         <p>No posts yet. Run <code>bin/console ckeditor-studio:install-blog-demo</code>.</p>
     {% endfor %}
+</main>
 </body>
 </html>

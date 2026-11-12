@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ post.title }}</title>
     <style>
-        body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 16px; color: #222; }
+        body { margin: 0; font-family: system-ui, sans-serif; color: #222; }
+        main { max-width: 720px; margin: 2rem auto; padding: 0 16px; }
         .meta { color: #777; font-size: 0.875rem; }
         .content img { max-width: 100%; height: auto; }
         blockquote { border-left: 3px solid #0a5bd3; margin-left: 0; padding-left: 1rem; color: #555; }
@@ -13,6 +14,8 @@
     </style>
 </head>
 <body>
+{% include 'includes/site-menu.html.twig' with { active: 'blog' } %}
+<main>
     <p><a href="{{ path('blog_list') }}">&larr; Blog</a></p>
     <h1>{{ post.title }}</h1>
     {% if post.publishDate %}
@@ -21,5 +24,6 @@
     <div class="content">
         {{ post.content | raw }}
     </div>
+</main>
 </body>
 </html>

@@ -1,0 +1,67 @@
+{#
+    Site menu shared by the Home guidepost, document pages and the blog.
+    Sticks to the top of the viewport while scrolling.
+
+    The document links are the published pages directly under Home, read
+    from the document tree, so renaming a page key in Studio (for example the
+    landing page) never breaks the menu. Label: the "navigation_name"
+    property when set, else the page title, else the key.
+
+    Usage: {% include 'includes/site-menu.html.twig' with { active: 'blog' } %}
+    "active" is 'home', 'blog' or omitted on document pages (the current
+    document is then matched by id).
+
+    Hidden in Studio edit mode so it never covers the editables.
+#}
+{% if not editmode|default(false) %}
+{% set home = pimcore_document_by_path('/') %}
+{% set current = document is defined and document ? document : null %}
+{% set active = active|default(current and home and current.id == home.id ? 'home' : null) %}
+
+<style>
+    .site-menu {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: #241933;
+        border-bottom: 3px solid #c9f24b;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        font-size: 15px;
+        line-height: 1.4;
+    }
+    .site-menu ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 8px;
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 10px 16px;
+        list-style: none;
+    }
+    .site-menu a {
+        display: block;
+        padding: 6px 14px;
+        border-radius: 999px;
+        color: #fff;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    .site-menu a:hover { background: rgba(255, 255, 255, 0.12); }
+    .site-menu a[aria-current="page"] { background: #c9f24b; color: #241933; }
+</style>
+
+<nav class="site-menu" aria-label="Site">
+    <ul>
+        <li><a href="/"{% if active == 'home' %} aria-current="page"{% endif %}>Home</a></li>
+        {% if home %}
+            {% for child in home.children %}
+                {% if child.type == 'page' and child.published and not child.property('navigation_exclude') %}
+                    {% set label = child.property('navigation_name') ?: child.title ?: child.key %}
+                    <li><a href="{{ child.fullPath|replace({' ': '%20'}) }}"{% if current and current.id == child.id %} aria-current="page"{% endif %}>{{ label }}</a></li>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        <li><a href="{{ path('blog_list') }}"{% if active == 'blog' %} aria-current="page"{% endif %}>Blog</a></li>
+    </ul>
+</nav>
+{% endif %}

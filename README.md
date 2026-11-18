@@ -53,11 +53,14 @@ Prerequisites: Docker with Docker Compose. You do not need PHP or Composer on yo
 
    ```bash
    docker compose exec php bin/console assets:install public --symlink --relative
+   docker compose exec php bin/console pimcore:deployment:classes-rebuild --create-classes
    docker compose exec php bin/console app:guidepost:seed
    docker compose exec php bin/console ckeditor-studio:install-blog-demo
    ```
 
-   `app:guidepost:seed` rewrites the Home document with the `AGENTS.md` content and is safe to re-run (it overwrites manual edits on that page). `ckeditor-studio:install-blog-demo` creates the BlogPost class and two sample posts.
+   `pimcore:deployment:classes-rebuild --create-classes` creates the data object classes from the committed definitions in `var/classes/` (today: BlogPost). `app:guidepost:seed` rewrites the Home document with the `AGENTS.md` content and is safe to re-run (it overwrites manual edits on that page). `ckeditor-studio:install-blog-demo` adds two sample posts (it creates the BlogPost class itself only if the class does not exist yet).
+
+   Pimcore keeps class definitions as files so they travel with the repository: `var/classes/definition_*.php` is committed, and the PHP generated from it in `var/classes/DataObject/` is gitignored. When you change a class in Studio, commit the updated definition file; after pulling someone else's change, run `classes-rebuild --create-classes` again to apply it to your database.
 
 5. Open the site.
 

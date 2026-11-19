@@ -1,0 +1,142 @@
+#!/usr/bin/env bash
+# Editor bundle switch test: Studio renders one wysiwyg editor bundle at a time
+# (Pimcore's rule, they all render the same wysiwyg.editor slot). This script
+# enables each editor bundle on its own, checks that the Studio page loads that
+# bundle and no other, and ends on CKEditor, the project's committed state.
+#
+# Run from the repository root with the stack up (docker compose up -d):
+#   bin/editor-bundles-e2e              run the full cycle: quill, wysiwyg, ckeditor
+#   bin/editor-bundles-e2e use quill    switch to one editor and stay there (try it in the browser)
+#   bin/editor-bundles-e2e use wysiwyg
+#   bin/editor-bundles-e2e restore      back to the committed state (CKEditor only)
+#
+# Editors: quill (pimcore/quill-bundle, the 2026 skeleton default, deprecated from
+# 2027), wysiwyg (pimcore/pimcore-wysiwyg-editor, Quill's replacement), ckeditor
+# (simply007/ckeditor-studio-bundle, this project).
+#
+# The cycle changes composer.json, composer.lock, config/bundles.php and
+# config/packages/ckeditor_studio.yaml while it runs and restores them at the end.
+
+set -u
+BASE="${BASE_URL:-http://localhost}"
+BACKUP="var/tmp/editor-bundles-e2e"
+NAMES="ckeditorstudio pimcorequill pimcorewysiwygeditor"
+
+ok()   { printf '  \033[32mOK\033[0m    %s\n' "$1"; }
+bad()  { printf '  \033[31mFAIL\033[0m  %s\n' "$1"; fails=$((fails + 1)); }
+step() { printf '\n\033[1m%s\033[0m\n' "$1"; }
+php()  { docker compose exec -T php "$@"; }
+fails=0
+
+bundle_class() {
+  case "$1" in
+    quill)    echo 'Pimcore\Bundle\QuillBundle\PimcoreQuillBundle' ;;
+    wysiwyg)  echo 'Pimcore\Bundle\WysiwygEditor\PimcoreWysiwygEditor' ;;
+    ckeditor) echo 'Simply007\CKEditorStudioBundle\CKEditorStudioBundle' ;;
+    *) return 1 ;;
+  esac
+}
+public_name() {
+  case "$1" in
+    quill) echo pimcorequill ;; wysiwyg) echo pimcorewysiwygeditor ;; ckeditor) echo ckeditorstudio ;;
+  esac
+}
+
+save_state() {
+  mkdir -p "$BACKUP"
+  if [ ! -f "$BACKUP/composer.json" ]; then
+    cp composer.json composer.lock config/bundles.php config/packages/ckeditor_studio.yaml "$BACKUP/"
+  fi
+}
+
+restore_state() {
+  step "Restore the committed state (CKEditor only)"
+  if [ -f "$BACKUP/composer.json" ]; then
+    cp "$BACKUP/composer.json" composer.json
+    cp "$BACKUP/composer.lock" composer.lock
+    cp "$BACKUP/bundles.php" config/bundles.php
+    cp "$BACKUP/ckeditor_studio.yaml" config/packages/ckeditor_studio.yaml
+    rm -f config/packages/ckeditor_studio.yaml.off
+    rm -rf "$BACKUP"
+  fi
+  php composer install --no-interaction --quiet
+  php bin/console cache:clear --quiet
+  php bin/console assets:install public --symlink --relative --quiet
+  ok "restored"
+}
+
+install_editor_packages() {
+  step "Install the Pimcore editor bundles for the test (not committed)"
+  php composer require --no-interaction --quiet pimcore/quill-bundle pimcore/pimcore-wysiwyg-editor \
+    && ok "pimcore/quill-bundle and pimcore/pimcore-wysiwyg-editor installed" \
+    || { bad "composer require failed"; return 1; }
+}
+
+# Enable exactly one editor bundle in config/bundles.php.
+enable_only() {
+  python3 - "$1" <<'PY'
+import re, sys
+editors = {
+    "quill": r"Pimcore\Bundle\QuillBundle\PimcoreQuillBundle",
+    "wysiwyg": r"Pimcore\Bundle\WysiwygEditor\PimcoreWysiwygEditor",
+    "ckeditor": r"Simply007\CKEditorStudioBundle\CKEditorStudioBundle",
+}
+path = "config/bundles.php"
+src = open(path).read()
+for cls in editors.values():
+    src = re.sub(r"\n\s*" + re.escape(cls) + r"::class => \[[^\]]*\],", "", src)
+line = "    " + editors[sys.argv[1]] + "::class => ['all' => true],\n"
+end = src.rstrip().rfind("];")
+src = src[:end] + line + "];\n"
+open(path, "w").write(src)
+PY
+  # The ckeditor_studio config only loads while CKEditorStudioBundle is enabled.
+  if [ "$1" = ckeditor ]; then
+    [ -f config/packages/ckeditor_studio.yaml.off ] && mv config/packages/ckeditor_studio.yaml.off config/packages/ckeditor_studio.yaml
+  else
+    [ -f config/packages/ckeditor_studio.yaml ] && mv config/packages/ckeditor_studio.yaml config/packages/ckeditor_studio.yaml.off
+  fi
+  php bin/console cache:clear --quiet || { bad "cache:clear failed with only $1 enabled"; return 1; }
+  if [ "$1" = wysiwyg ]; then php bin/console pimcore:bundle:install PimcoreWysiwygEditor --no-interaction --quiet 2>/dev/null; fi
+  php bin/console assets:install public --symlink --relative --quiet
+}
+
+check_loaded() {
+  expected=$(public_name "$1")
+  code=$(curl -s -o /dev/null -w '%{http_code}' -m 30 "$BASE/pimcore-studio/")
+  [ "$code" = 200 ] && ok "/pimcore-studio/ ($code)" || bad "/pimcore-studio/ returned $code"
+  html=$(curl -s -m 30 "$BASE/pimcore-studio/")
+  loaded=""
+  for name in $NAMES; do
+    printf '%s' "$html" | grep -q "/bundles/$name/" && loaded="$loaded $name"
+  done
+  loaded="${loaded# }"
+  if [ "$loaded" = "$expected" ]; then ok "Studio loads only $expected"; else bad "Studio loads: ${loaded:-no editor bundle} (expected only $expected)"; fi
+}
+
+use_editor() {
+  bundle_class "$1" >/dev/null || { echo "Unknown editor: $1 (quill, wysiwyg, ckeditor)"; exit 2; }
+  step "Editor: $1"
+  enable_only "$1" && check_loaded "$1"
+}
+
+case "${1:-cycle}" in
+  restore)
+    restore_state ;;
+  use)
+    save_state
+    [ "${2:-}" = ckeditor ] || install_editor_packages || exit 1
+    use_editor "${2:-}"
+    echo; echo "Open $BASE/pimcore-studio/ and edit a rich text field. Run 'bin/editor-bundles-e2e restore' when done." ;;
+  cycle)
+    save_state
+    trap restore_state EXIT
+    install_editor_packages || exit 1
+    for editor in quill wysiwyg ckeditor; do use_editor "$editor"; done
+    ;;
+  *)
+    sed -n 2,18p "$0"; exit 2 ;;
+esac
+
+echo
+if [ "$fails" -eq 0 ]; then echo "All editor bundle checks passed."; else echo "$fails check(s) failed."; exit 1; fi

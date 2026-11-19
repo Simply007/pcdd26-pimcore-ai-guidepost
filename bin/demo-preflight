@@ -46,16 +46,27 @@ import html, json, re, sys
 m = re.search(r"data-app-config=\"([^\"]*)\"", sys.stdin.read())
 if not m:
     print("  \033[31mFAIL\033[0m  no data-app-config on the Studio page"); sys.exit(1)
-cfg = json.loads(html.unescape(m.group(1))).get("ckeditorStudio", {})
-editor = cfg.get("editor")
-mark = "\033[32mOK\033[0m  " if editor == "ckeditor" else "\033[31mFAIL\033[0m"
-print(f"  {mark}  editor selection: {editor}")
+all_cfg = json.loads(html.unescape(m.group(1)))
+if "ckeditorStudio" not in all_cfg:
+    print("  \033[31mFAIL\033[0m  no ckeditorStudio app config (is CKEditorStudioBundle enabled?)"); sys.exit(1)
+cfg = all_cfg["ckeditorStudio"]
+print("  \033[32mOK\033[0m    CKEditor app config present")
 has_key = bool(cfg.get("licenseKey"))
 premium = cfg.get("premium", {})
 ai = premium.get("ai", {}).get("enabled") is True
 rtc = premium.get("realtimeCollaboration", {}).get("enabled") is True
 print(f"  \033[33mNOTE\033[0m  license key configured: {has_key}, CKEditor AI: {ai}, real-time collaboration: {rtc}")
 ' || fails=$((fails + 1))
+
+echo "Editor bundles"
+# Pimcore's rule: one editor bundle at a time, all of them render the same
+# wysiwyg.editor slot. Look for each bundle's assets on the Studio page.
+loaded=""
+for name in ckeditorstudio pimcorequill pimcorewysiwygeditor pimcoretinymce; do
+  if printf '%s' "$studio_html" | grep -q "/bundles/$name/"; then loaded="$loaded $name"; fi
+done
+loaded="${loaded# }"
+if [ "$loaded" = "ckeditorstudio" ]; then ok "only CKEditor is loaded"; else bad "editor bundles on the Studio page: ${loaded:-none} (expected only ckeditorstudio)"; fi
 
 echo "Reminders"
 info "keep DevTools closed on stage: a failed CKEditor AI start logs the config, license key included"

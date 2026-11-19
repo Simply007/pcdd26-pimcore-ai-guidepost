@@ -17,12 +17,9 @@ parameters:
   env(CKEDITOR_PREMIUM_RTC): '0'
 
 ckeditor_studio:
-  # The one place that decides which editor Studio uses for wysiwyg fields:
-  #   ckeditor  this bundle (default)
-  #   quill     PimcoreQuillBundle (falls back to CKEditor when Quill is not enabled)
-  #   default   Studio's built-in editor
-  # Both editor bundles stay enabled in config/bundles.php; switch here, then cache:clear.
-  editor: ckeditor
+  # Editor choice: CKEditor is the only editor bundle enabled in config/bundles.php
+  # (Pimcore's rule: one editor bundle at a time). bin/editor-bundles-e2e switches
+  # between Quill, the Pimcore WYSIWYG Editor and CKEditor and ends on CKEditor.
 
   premium:
     ai:

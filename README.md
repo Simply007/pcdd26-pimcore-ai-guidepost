@@ -101,7 +101,7 @@ More Docker notes, the Codeception test commands and the Platform Version explan
 
 - Classic editor everywhere, plus an inline editor option for document editables (the Landing page document type uses it).
 - Toolbar configurable in `config/packages/ckeditor_studio.yaml`, with a default preset.
-- Editor selection `ckeditor`, `quill` or `default`, so Quill and CKEditor can stay installed side by side.
+- One editor bundle at a time, like Pimcore's own (Quill, Pimcore WYSIWYG Editor, TinyMCE). This project ships CKEditor only; `bin/editor-bundles-e2e` switches through Quill and the Pimcore WYSIWYG Editor and back to check each one loads.
 - Runs the open source feature set with no key. With a CKEditor license key, optional CKEditor AI and real-time collaboration can be switched on through environment variables in `.env.local`; a free trial at [portal.ckeditor.com](https://portal.ckeditor.com/) covers both.
 
 Setup, configuration, the premium path and known limitations are in the [bundle README](https://github.com/Simply007/pimcore-studio-ckeditor-bundle#readme). This project installs it from Packagist (`composer require simply007/ckeditor-studio-bundle`); it was built in this repository and extracted into its own package ([issue #3](https://github.com/Simply007/pcdd26-pimcore-ai-guidepost/issues/3)).

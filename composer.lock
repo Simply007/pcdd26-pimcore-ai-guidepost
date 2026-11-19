@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1f722545d0a5dce6f30c98e7efc8566f",
+    "content-hash": "5aecd8853c24609a9107adfc01013a07",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -7262,16 +7262,16 @@
         },
         {
             "name": "simply007/ckeditor-studio-bundle",
-            "version": "dev-feat/single-editor-bundle",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Simply007/pimcore-studio-ckeditor-bundle.git",
-                "reference": "f07a0448fb26d17e5326e9319da4b0bb03231e44"
+                "reference": "1e58e14dff322d19be0f3fea42557101a92492b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Simply007/pimcore-studio-ckeditor-bundle/zipball/f07a0448fb26d17e5326e9319da4b0bb03231e44",
-                "reference": "f07a0448fb26d17e5326e9319da4b0bb03231e44",
+                "url": "https://api.github.com/repos/Simply007/pimcore-studio-ckeditor-bundle/zipball/1e58e14dff322d19be0f3fea42557101a92492b3",
+                "reference": "1e58e14dff322d19be0f3fea42557101a92492b3",
                 "shasum": ""
             },
             "require": {
@@ -7315,7 +7315,7 @@
                 "issues": "https://github.com/Simply007/pimcore-studio-ckeditor-bundle/issues",
                 "source": "https://github.com/Simply007/pimcore-studio-ckeditor-bundle"
             },
-            "time": "2026-11-19T15:22:24+00:00"
+            "time": "2026-11-19T16:24:33+00:00"
         },
         {
             "name": "spatie/image-optimizer",
@@ -17171,18 +17171,9 @@
             "time": "2026-11-01T07:18:47+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "simply007/ckeditor-studio-bundle",
-            "version": "dev-feat/single-editor-bundle",
-            "alias": "0.3.0",
-            "alias_normalized": "0.3.0.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "simply007/ckeditor-studio-bundle": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

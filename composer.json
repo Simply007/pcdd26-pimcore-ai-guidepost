@@ -18,7 +18,7 @@
     "pimcore/platform-version": "^2026.3.0",
     "pimcore/studio-backend-bundle": "*",
     "pimcore/studio-ui-bundle": "*",
-    "simply007/ckeditor-studio-bundle": "dev-feat/single-editor-bundle as 0.3.0",
+    "simply007/ckeditor-studio-bundle": "^0.3",
     "symfony/amqp-messenger": "^7.4",
     "symfony/dotenv": "^7.4",
     "symfony/runtime": "^7.4"

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7668302f2374990a91be2658093e7917",
+    "content-hash": "1f722545d0a5dce6f30c98e7efc8566f",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -5680,60 +5680,6 @@
             "time": "2026-09-29T07:12:31+00:00"
         },
         {
-            "name": "pimcore/quill-bundle",
-            "version": "v2026.3.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pimcore/quill-bundle.git",
-                "reference": "6838953eb6eb0f75778a078c7196b5987a3c75ac"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pimcore/quill-bundle/zipball/6838953eb6eb0f75778a078c7196b5987a3c75ac",
-                "reference": "6838953eb6eb0f75778a078c7196b5987a3c75ac",
-                "shasum": ""
-            },
-            "require": {
-                "php": "~8.4.0 || ~8.5.0",
-                "pimcore/pimcore": "^2026.1",
-                "pimcore/studio-backend-bundle": "^2026.1",
-                "pimcore/studio-ui-bundle": "^2026.2.1"
-            },
-            "require-dev": {
-                "nyholm/psr7": "^1",
-                "phpstan/phpstan": "^2.1.40",
-                "phpstan/phpstan-symfony": "^2.0",
-                "phpunit/phpunit": "^12.5.23 || ^13.1.7",
-                "roave/security-advisories": "dev-latest"
-            },
-            "type": "pimcore-bundle",
-            "extra": {
-                "pimcore": {
-                    "bundles": [
-                        "Pimcore\\Bundle\\QuillBundle\\PimcoreQuillBundle"
-                    ]
-                },
-                "branch-alias": {
-                    "dev-2026.x": "2026.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Pimcore\\Bundle\\QuillBundle\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "proprietary"
-            ],
-            "support": {
-                "issues": "https://github.com/pimcore/quill-bundle/issues",
-                "source": "https://github.com/pimcore/quill-bundle/tree/v2026.3.3"
-            },
-            "abandoned": "pimcore/pimcore-wysiwyg-editor",
-            "time": "2026-10-16T09:02:12+00:00"
-        },
-        {
             "name": "pimcore/static-resolver-bundle",
             "version": "v2026.3.4",
             "source": {
@@ -7316,16 +7262,16 @@
         },
         {
             "name": "simply007/ckeditor-studio-bundle",
-            "version": "v0.2.0",
+            "version": "dev-feat/single-editor-bundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Simply007/ckeditor-studio-bundle.git",
-                "reference": "0859cffa8faf5bb466b77cd4f21cb8957589d692"
+                "url": "https://github.com/Simply007/pimcore-studio-ckeditor-bundle.git",
+                "reference": "f07a0448fb26d17e5326e9319da4b0bb03231e44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Simply007/ckeditor-studio-bundle/zipball/0859cffa8faf5bb466b77cd4f21cb8957589d692",
-                "reference": "0859cffa8faf5bb466b77cd4f21cb8957589d692",
+                "url": "https://api.github.com/repos/Simply007/pimcore-studio-ckeditor-bundle/zipball/f07a0448fb26d17e5326e9319da4b0bb03231e44",
+                "reference": "f07a0448fb26d17e5326e9319da4b0bb03231e44",
                 "shasum": ""
             },
             "require": {
@@ -7357,7 +7303,7 @@
                 }
             ],
             "description": "CKEditor as the rich text editor in Pimcore Studio: classic and inline editors, configurable toolbar, optional CKEditor AI and real-time collaboration. Community package, not affiliated with Pimcore GmbH.",
-            "homepage": "https://github.com/Simply007/ckeditor-studio-bundle",
+            "homepage": "https://github.com/Simply007/pimcore-studio-ckeditor-bundle",
             "keywords": [
                 "CKEditor",
                 "pimcore",
@@ -7366,10 +7312,10 @@
                 "wysiwyg"
             ],
             "support": {
-                "issues": "https://github.com/Simply007/ckeditor-studio-bundle/issues",
-                "source": "https://github.com/Simply007/ckeditor-studio-bundle"
+                "issues": "https://github.com/Simply007/pimcore-studio-ckeditor-bundle/issues",
+                "source": "https://github.com/Simply007/pimcore-studio-ckeditor-bundle"
             },
-            "time": "2026-11-08T17:57:43+00:00"
+            "time": "2026-11-19T15:22:24+00:00"
         },
         {
             "name": "spatie/image-optimizer",
@@ -17225,9 +17171,18 @@
             "time": "2026-11-01T07:18:47+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "simply007/ckeditor-studio-bundle",
+            "version": "dev-feat/single-editor-bundle",
+            "alias": "0.3.0",
+            "alias_normalized": "0.3.0.0"
+        }
+    ],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": {
+        "simply007/ckeditor-studio-bundle": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

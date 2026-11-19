@@ -11,6 +11,7 @@ Agents: read this file first. Skills live in `.claude/skills/` (Claude Code) and
   - [pimcore/skills](https://github.com/pimcore/skills): the official repo, 33 skills, all Pimcore Studio bundle development (UI + Studio backend).
   - [cors-gmbh/pimcore-skills](https://github.com/cors-gmbh/pimcore-skills): community repo by CORS GmbH, platform-wide skills (`pimcore`, `pimcore-studio`, `pimcore-studio-migrate`, `pimcore-12-upgrade`, `coreshop`, setup helpers). Also installable as a Claude Code plugin marketplace.
 - CKEditor skills via [skills.sh](https://skills.sh): `npx skills add ckeditor/skills` (`ckeditor`, `ckeditor-bundle`, `ckeditor-update`) in `.agents/skills/`.
+- `skills/ckeditor-integration/` is OURS too: the general skill for integrating CKEditor into any host platform, with this repo as its showcase and end-to-end test (`tests/skills-e2e/`). Its Pimcore worked example, `ckeditor-pimcore`, ships inside `simply007/ckeditor-studio-bundle`.
 - One skill is OURS, grown in this repo: `.claude/skills/pimcore-onboarding/`, distilled from the questions a real first-time Pimcore developer asked here. Its inbox is the beginner question log; when reality contradicts it, update it in the same change.
 
 ## Found: Pimcore AI resources for coding agents

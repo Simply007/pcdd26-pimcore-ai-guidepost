@@ -10,7 +10,8 @@ New here? Start with [`AGENTS.md`](AGENTS.md): it is the guidepost itself (the r
 
 ## What's inside
 
-- **A working agent setup**: 43 vendored agent skills plus one project-local skill, readable by Claude Code, Codex, Copilot, Gemini CLI and other agents. See [Agent setup](#agent-setup).
+- **A working agent setup**: 43 vendored agent skills plus two project-local skills, readable by Claude Code, Codex, Copilot, Gemini CLI and other agents. See [Agent setup](#agent-setup).
+- **CKEditor integration skills**: [`ckeditor-integration`](skills/ckeditor-integration/SKILL.md), a general skill for putting CKEditor into any host platform, with this project as its showcase and [end-to-end test](tests/skills-e2e/README.md). See [CKEditor integration skills](#ckeditor-integration-skills).
 - **A map of Pimcore's AI resources**: [`AGENTS.md`](AGENTS.md) lists docs for LLMs, skills repos, the Datahub MCP server, the Pimcore Agent and more. The `app:guidepost:seed` command turns it into the site's Home page.
 - **CKEditor in Pimcore Studio**: [`simply007/ckeditor-studio-bundle`](https://github.com/Simply007/pimcore-studio-ckeditor-bundle) mounts CKEditor as Studio's rich text editor. See [CKEditor in Pimcore Studio](#ckeditor-in-pimcore-studio).
 - **Demos**:
@@ -85,7 +86,8 @@ More Docker notes, the Codeception test commands and the Platform Version explan
 | [pimcore/skills](https://github.com/pimcore/skills) (official, Pimcore Studio bundle development) | 33 | `skills-vendor/pimcore-skills/` (git submodule) | symlinks `pimcore-studio-backend-*`, `pimcore-studio-bundle-setup`, `pimcore-studio-ui-*` |
 | [cors-gmbh/pimcore-skills](https://github.com/cors-gmbh/pimcore-skills) (community, platform-wide) | 7 | `skills-vendor/cors-pimcore-skills/` (git submodule) | symlinks `pimcore`, `pimcore-studio`, `pimcore-studio-migrate`, `pimcore-12-upgrade`, `coreshop`, `cla-setup`, `cors-dev-setup` |
 | [ckeditor/skills](https://github.com/ckeditor/skills) via [skills.sh](https://skills.sh) | 3 | `.agents/skills/` (real files, pinned in `skills-lock.json`) | symlinks `ckeditor`, `ckeditor-bundle`, `ckeditor-update` |
-| This repository | 1 | `.claude/skills/pimcore-onboarding/` (real folder) | `pimcore-onboarding` |
+| This repository | 2 | `.claude/skills/pimcore-onboarding/` and `skills/ckeditor-integration/` (real folders) | `pimcore-onboarding`, `ckeditor-integration` (also linked in `.agents/skills/`) |
+| [simply007/ckeditor-studio-bundle](https://github.com/Simply007/pimcore-studio-ckeditor-bundle) (Composer package) | 1 | `vendor/simply007/ckeditor-studio-bundle/skills/` | `ckeditor-pimcore`, linked once a bundle release ships the skill |
 
 `pimcore-onboarding` is the one skill grown here: answers to the orientation questions a first-time Pimcore developer actually asked while building this repo (Pimcore vs Pimcore Studio, product registration, docs access for agents, known traps).
 
@@ -105,6 +107,23 @@ More Docker notes, the Codeception test commands and the Platform Version explan
 - Runs the open source feature set with no key. With a CKEditor license key, optional CKEditor AI and real-time collaboration can be switched on through environment variables in `.env.local`; a free trial at [portal.ckeditor.com](https://portal.ckeditor.com/) covers both.
 
 Setup, configuration, the premium path and known limitations are in the [bundle README](https://github.com/Simply007/pimcore-studio-ckeditor-bundle#readme). This project installs it from Packagist (`composer require simply007/ckeditor-studio-bundle`); it was built in this repository and extracted into its own package ([issue #3](https://github.com/Simply007/pcdd26-pimcore-ai-guidepost/issues/3)).
+
+## CKEditor integration skills
+
+Two skills turn what building the bundle taught into something an agent can reuse:
+
+| Skill | Scope | Lives in |
+|---|---|---|
+| [`ckeditor-integration`](skills/ckeditor-integration/SKILL.md) | Any host platform (CMS, PIM, DAM, admin framework): the seven integration points between CKEditor and its host, from the editor slot to stored HTML, host features, runtime configuration and shipping | This repository, `skills/` |
+| `ckeditor-pimcore` | The Pimcore Studio answer to each point: installing and configuring the bundle, the premium path, and the Studio internals for anyone building an editor bundle | The bundle package, `skills/ckeditor-pimcore/` |
+
+Both complement the official [ckeditor/skills](https://github.com/ckeditor/skills) (`ckeditor` handles the editor setup itself). Install the general skill elsewhere with:
+
+```bash
+npx skills add Simply007/pcdd26-pimcore-ai-guidepost   # then pick ckeditor-integration
+```
+
+This project doubles as the skills' end-to-end test: [`tests/skills-e2e/`](tests/skills-e2e/README.md) removes the CKEditor integration, lets an agent rebuild it from the skills, and grades the result with `bin/skills-e2e check`.
 
 ## Pimcore in 60 seconds
 

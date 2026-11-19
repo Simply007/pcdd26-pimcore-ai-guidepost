@@ -1,0 +1,109 @@
+#!/usr/bin/env bash
+# Skills end-to-end test, scenario 01 (tests/skills-e2e/scenarios/01-pimcore-add-ckeditor.md).
+# Run from the repository root of the checkout the Docker stack mounts:
+#   bin/skills-e2e prepare | run [--no-skills] | check | reset
+# Prints only states and status codes, never secret values.
+
+set -u
+BASE="${BASE_URL:-http://localhost}"
+STATE=var/skills-e2e
+SCENARIO=tests/skills-e2e/scenarios/01-pimcore-add-ckeditor.md
+PACKAGE=simply007/ckeditor-studio-bundle
+BUNDLE_LINE='Simply007\\CKEditorStudioBundle\\CKEditorStudioBundle::class'
+SKILL_LINKS=(.claude/skills/ckeditor-integration .agents/skills/ckeditor-integration .claude/skills/ckeditor-pimcore)
+
+php() { docker compose exec -T php "$@"; }
+ok()   { printf '  \033[32mOK\033[0m    %s\n' "$1"; }
+bad()  { printf '  \033[31mFAIL\033[0m  %s\n' "$1"; fails=$((fails + 1)); }
+
+prepare() {
+  if [ -n "$(git status --porcelain)" ]; then echo "Working tree not clean; commit or stash first."; exit 1; fi
+  mkdir -p "$STATE"
+  git rev-parse --abbrev-ref HEAD > "$STATE/start-branch"
+  git switch -q -c "e2e/$(date +%Y%m%d-%H%M%S)"
+  php composer remove --no-interaction "$PACKAGE"
+  grep -v "$BUNDLE_LINE" config/bundles.php > "$STATE/bundles.php" && cp "$STATE/bundles.php" config/bundles.php
+  rm -f config/packages/ckeditor_studio.yaml
+  php bin/console cache:clear
+  git add -A && git commit -qm "e2e: start state without the CKEditor bundle"
+  echo "Prepared on $(git rev-parse --abbrev-ref HEAD). Next: bin/skills-e2e run"
+}
+
+run() {
+  mkdir -p "$STATE"
+  hidden=()
+  if [ "${1:-}" = "--no-skills" ]; then
+    for link in "${SKILL_LINKS[@]}"; do
+      if [ -e "$link" ] || [ -L "$link" ]; then mv "$link" "$link.e2e-hidden"; hidden+=("$link"); fi
+    done
+  fi
+  restore() { for link in "${hidden[@]+"${hidden[@]}"}"; do mv "$link.e2e-hidden" "$link"; done; }
+  trap restore EXIT
+
+  prompt=$(awk '/^## Prompt/{f=1;next} f&&/^```/{c++; if(c==2) exit; next} f&&c==1' "$SCENARIO")
+  claude -p "$prompt" \
+    --output-format stream-json --verbose \
+    --allowedTools "Read" "Edit" "Write" "Glob" "Grep" "Skill" "WebFetch" "WebSearch" \
+      "Bash(docker compose exec *)" "Bash(docker compose ps*)" "Bash(curl *)" \
+      "Bash(bin/demo-preflight)" "Bash(git status*)" "Bash(git diff*)" "Bash(ls *)" "Bash(cat *)" \
+    > "$STATE/transcript.jsonl"
+  echo "Transcript: $STATE/transcript.jsonl. Next: bin/skills-e2e check"
+}
+
+check() {
+  fails=0
+  echo "Integration"
+  if grep -q "\"$PACKAGE\"" composer.json; then ok "$PACKAGE required (existing integration reused)"; else bad "$PACKAGE not in composer.json"; fi
+  if grep -q "$BUNDLE_LINE" config/bundles.php; then ok "bundle enabled"; else bad "bundle not in config/bundles.php"; fi
+
+  echo "Runtime"
+  curl -s -m 15 "$BASE/pimcore-studio/" | python3 -c '
+import html, json, re, sys
+m = re.search(r"data-app-config=\"([^\"]*)\"", sys.stdin.read())
+cfg = json.loads(html.unescape(m.group(1))).get("ckeditorStudio") if m else None
+if cfg is None:
+    print("  \033[31mFAIL\033[0m  no ckeditorStudio in data-app-config"); sys.exit(1)
+editor = cfg.get("editor")
+has_key = bool(cfg.get("licenseKey"))
+ok = editor == "ckeditor" and not has_key
+print(("  \033[32mOK\033[0m    " if ok else "  \033[31mFAIL\033[0m  ") + f"editor {editor}, license key configured: {has_key}")
+sys.exit(0 if ok else 1)
+' || fails=$((fails + 1))
+  code=$(curl -s -o /dev/null -w '%{http_code}' -m 15 "$BASE/pimcore-studio/api/ckeditor-studio/cs-token")
+  if [ "$code" = "401" ]; then ok "token endpoint guarded (401)"; else bad "token endpoint returned $code, expected 401"; fi
+
+  echo "Secrets"
+  if grep -rq "CKEDITOR_LICENSE_KEY" config/; then ok "license key read from the environment"; else bad "no CKEDITOR_LICENSE_KEY reference in config/"; fi
+  if git grep -nE "CKEDITOR_(LICENSE_KEY|CS_ACCESS_KEY)=[^.[:space:]<]" -- . ':!*.md' >/dev/null; then bad "a tracked file sets a key value"; else ok "no key values in tracked files"; fi
+
+  echo "Preflight"
+  preflight=$(bin/demo-preflight 2>&1)
+  for line in "pimcore-studio/ (200)" "frontend build" "editor selection: ckeditor"; do
+    if printf '%s' "$preflight" | grep -F "$line" | grep -q "OK"; then ok "preflight: $line"; else bad "preflight: $line"; fi
+  done
+
+  echo "Skills used"
+  for skill in ckeditor-integration ckeditor-pimcore; do
+    if [ -f "$STATE/transcript.jsonl" ] && grep -q "$skill" "$STATE/transcript.jsonl"; then ok "$skill read"; else bad "$skill not in the transcript"; fi
+  done
+
+  echo
+  if [ "$fails" -eq 0 ]; then echo "PASS"; else echo "$fails check(s) failed."; exit 1; fi
+}
+
+reset() {
+  start=$(cat "$STATE/start-branch" 2>/dev/null || echo main)
+  git stash -q -u -m "skills-e2e leftovers" 2>/dev/null || true
+  git switch -q "$start"
+  php composer install --no-interaction
+  php bin/console cache:clear
+  echo "Back on $start. The e2e branch is kept for review; delete it with git branch -D."
+}
+
+case "${1:-}" in
+  prepare) prepare ;;
+  run) shift; run "$@" ;;
+  check) check ;;
+  reset) reset ;;
+  *) echo "Usage: bin/skills-e2e prepare | run [--no-skills] | check | reset"; exit 2 ;;
+esac
